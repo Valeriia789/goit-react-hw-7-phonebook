@@ -22,6 +22,7 @@
 
 <img src="./resource.png" alt="Contact schema" with="400" />
 
+
 Використовуй функцію
 [createAsyncThunk](https://redux-toolkit.js.org/api/createAsyncThunk) або
 [RTK Query](https://redux-toolkit.js.org/rtk-query/overview) для взаємодії з
