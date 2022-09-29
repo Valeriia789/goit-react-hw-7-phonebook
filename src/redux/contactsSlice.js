@@ -10,7 +10,11 @@ import { nanoid } from '@reduxjs/toolkit';
 
 export const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: [],
+  initialState: 
+  { items: [],
+    isLoading: false,
+    error: null}
+  ,
   reducers: {
     addContact: {
       reducer (state, action) {
