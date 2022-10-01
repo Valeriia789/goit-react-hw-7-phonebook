@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { ContactListItem } from '../ContactListItem/ContactListItem';
 
-export const ContactList = () => {
-  const contacts = useSelector(state => state.contacts);
+export const ContactsList = ({contacts, ...otherProps}) => {
+  // const contacts = useSelector(state => state.contacts);
   const filter = useSelector(state => state.filter);
   const totalContacts = contacts.length;
 
@@ -26,13 +26,7 @@ export const ContactList = () => {
         {Array.isArray(filteredContacts)
           ? filteredContacts.map(contact => {
               return (
-                <ContactListItem
-                  key={contact.id}
-                  id={contact.id}
-                  name={contact.name}
-                  number={contact.number}
-                  // group={contact.group}
-                ></ContactListItem>
+                <ContactListItem key={contact.id} contact={contact} {...otherProps}/>
               );
             })
           : null}

@@ -1,27 +1,19 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/contactsSlice';
+import { useDeleteContactMutation } from '../../redux/contactsSlice';
 import { ListItem, DeleteButton } from './ContactListItem.styled';
 
-export const ContactListItem = ({ id, name, number }) => {
-  const dispatch = useDispatch();
-
-  const onDeleteContactClicked = () => {
-    dispatch(deleteContact({ id }));
-  };
+export const ContactListItem = ({ contact }) => {
+  const [deleteContact, { isLoading }] = useDeleteContactMutation();
 
   return (
     <ListItem>
       <p>
-        {name} : {number}
+        {contact.name} : {contact.number}
       </p>
-
-      {/* <label>
-      <input type='checkbox' checked={group} />
-      Best friend
-    </label> */}
-
-      <DeleteButton type='button' onClick={onDeleteContactClicked}>
+      <DeleteButton
+        type='button'
+        onClick={() => deleteContact(contact.id)}
+        disabled={isLoading}
+      >
         Delete
       </DeleteButton>
     </ListItem>
