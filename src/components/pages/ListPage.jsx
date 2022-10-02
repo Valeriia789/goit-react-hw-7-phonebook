@@ -6,10 +6,6 @@ import { ContactsList } from "components/ContactList/ContactsList";
 export const ListPage = () => {
   const navigate = useNavigate()
   const {data: contacts, error, isLoading} = useFetchContactsQuery();
-
-  // console.log(data);
-  // console.log(error);
-
   
   return (
   <div>
