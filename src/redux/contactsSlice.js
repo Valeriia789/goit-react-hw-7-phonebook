@@ -1,38 +1,70 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createSlice } from "@reduxjs/toolkit";
 
-export const contactsApi = createApi({
-  reducerPath: 'contacts',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://6335c71b8aa85b7c5d22f8f7.mockapi.io',
-  }),
-  tagTypes: ['Contact'],
-  endpoints: (builder) => ({
-    fetchContacts: builder.query({
-      query: () => `/contacts`,
-      // transformResponse: (response: { data: Post }, meta, arg) => response.data,
-      providesTags: ['Contact']
-    }),
+const contactsInitialState = {
+  items: [],
+  isLoading: false,
+  error: null,
+};
 
-    addContact: builder.mutation({
-      query: values => ({
-        url: '/contacts',
-        method: 'POST',
-        body: values,
-      }),
-      invalidatesTags: ['Contact']
-    }),
+const contactsSlice = createSlice ({
+  name: 'contacts',
+  initialState: contactsInitialState,
+  reducers: {
+        // Виконається в момент старту HTTP-запиту
+        fetchingInProgress(state) {
+          state.isLoading = true;
+        },
+        // Виконається якщо HTTP-запит завершився успішно
+        fetchingSuccess(state, action) {
+          state.isLoading = false;
+          state.error = null;
+          state.items = action.payload;
+        },
+        // Виконається якщо HTTP-запит завершився з помилкою
+        fetchingError(state, action) {
+          state.isLoading = false;
+          state.error = action.payload;
+        },
+  },
+})
 
-    deleteContact: builder.mutation({
-      query: id => ({
-        url: `/contacts/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['Contact']
-    })
-  }),
-});
+export const { fetchingInProgress, fetchingSuccess, fetchingError } = contactsSlice.actions;
+export const contactsReducer = contactsSlice.reducer;
 
-export const { useFetchContactsQuery, useAddContactMutation, useDeleteContactMutation } = contactsApi;
+// import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+// export const contactsApi = createApi({
+//   reducerPath: 'contacts',
+//   baseQuery: fetchBaseQuery({
+//     baseUrl: 'https://6335c71b8aa85b7c5d22f8f7.mockapi.io',
+//   }),
+//   tagTypes: ['Contact'],
+//   endpoints: (builder) => ({
+//     fetchContacts: builder.query({
+//       query: () => `/contacts`,
+//       providesTags: ['Contact']
+//     }),
+
+//     addContact: builder.mutation({
+//       query: values => ({
+//         url: '/contacts',
+//         method: 'POST',
+//         body: values,
+//       }),
+//       invalidatesTags: ['Contact']
+//     }),
+
+//     deleteContact: builder.mutation({
+//       query: id => ({
+//         url: `/contacts/${id}`,
+//         method: 'DELETE',
+//       }),
+//       invalidatesTags: ['Contact']
+//     })
+//   }),
+// });
+
+// export const { useFetchContactsQuery, useAddContactMutation, useDeleteContactMutation } = contactsApi;
 
 // import { createSlice } from '@reduxjs/toolkit';
 // import { nanoid } from '@reduxjs/toolkit';
