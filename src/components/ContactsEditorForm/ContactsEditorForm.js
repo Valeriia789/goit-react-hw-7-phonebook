@@ -1,3 +1,55 @@
+import { useDispatch } from "react-redux";
+import { Form, Label, SubmitButton } from './ContactsEditorForm.styled';
+import { Input } from '../commonStyles/Input.styled';
+import { addContact } from "redux/operations";
+
+export const ContactsEditorForm = () => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    const form = event.target;
+    dispatch(addContact(event.target.elements.name.value, event.target.elements.phone.value));
+    form.reset();
+  };
+
+  return (
+    <section>
+      <h2>Phonebook</h2>
+
+      <Form onSubmit={handleSubmit}>
+        <Label>
+          Name
+          <Input
+            type='text'
+            id='contactName'
+            name='name'
+            placeholder='Name Surname'
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+          />
+        </Label>
+
+        <Label>
+          Phone number
+          <Input
+            type='tel'
+            id='contactNumber'
+            name='phone'
+            placeholder='+38 000 00 00'
+            pattern='\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}'
+            title='Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
+            required
+          />
+        </Label>
+
+        <SubmitButton type='submit'>Save contact</SubmitButton>
+      </Form>
+    </section>
+  );
+}
+
 // import React, { useState } from 'react';
 // import { useDispatch } from 'react-redux';
 // import {
